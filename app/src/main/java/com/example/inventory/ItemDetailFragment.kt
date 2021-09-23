@@ -24,6 +24,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.inventory.data.Item
+import com.example.inventory.data.getFormattedPrice
 import com.example.inventory.databinding.FragmentItemDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -60,12 +62,19 @@ class ItemDetailFragment : Fragment() {
             .show()
     }
 
+    private fun bind(item: Item) {
+        binding.itemName.text = item.itemName
+        binding.itemPrice.text = item.getFormattedPrice()
+        binding.itemCount.text = item.quantityInStock.toString()
+    }
+
     /**
      * Deletes the current item and navigates to the list fragment.
      */
     private fun deleteItem() {
         findNavController().navigateUp()
     }
+
 
     /**
      * Called when fragment is destroyed.
