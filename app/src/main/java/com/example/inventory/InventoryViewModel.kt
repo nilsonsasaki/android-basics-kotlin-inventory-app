@@ -45,11 +45,20 @@ class InventoryViewModel(private val itemDao: ItemDao):ViewModel() {
         return itemDao.getItem(id).asLiveData()
     }
 
+    fun deleteItem(item: Item) {
+        viewModelScope.launch {
+            itemDao.delete(item)
+        }
+    }
+
     fun isEntryValid(itemName: String, itemPrice: String, itemCount: String): Boolean {
         if (itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank()) {
             return false
         }
         return true
+    }
+    fun isStockAvailable(item: Item): Boolean {
+        return (item.quantityInStock > 0)
     }
 }
 class InventoryViewModelFactory(private val itemDao: ItemDao) : ViewModelProvider.Factory {
